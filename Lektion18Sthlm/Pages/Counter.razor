@@ -1,0 +1,26 @@
+﻿@page "/counter"
+@using Lektion18Sthlm.Classes;
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+    List<Magazine> mags = new()
+    {
+        new Magazine { Id = 2, Title = "Title 2" },
+        new Magazine { Id = 1, Title = "Title 1" },
+        new Magazine { Id = 4, Title = "Title 4" }
+    };
+
+    private void IncrementCount()
+    {
+        mags.Sort();
+        currentCount++;
+    }
+}

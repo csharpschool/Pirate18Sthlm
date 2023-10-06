@@ -1,0 +1,59 @@
+﻿@page "/"
+@using Lektion18Sthlm.Classes;
+@using Lektion18Sthlm.Interfaces;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Movies</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in movies)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Genre</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => PlayMedia(movie)">Click me</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>@message</div>
+
+@code{
+    List<IMovie> movies = new();
+    string message = string.Empty;
+
+    void PlayMedia(IMovie movie)
+    {
+        message = movie.Play();
+    }
+
+    protected override void OnInitialized()
+    {
+        movies.Add(new BlueRay(1, "Shreck", Genres.Animated));
+        movies.Add(new Stream(1001, "Shreck", Genres.Animated));
+        movies.Add(new BlueRay(2, "Terminator", Genres.Action));
+        movies.Add(new Stream(1003, "A Few Good Men", Genres.Drama));
+
+        /*IMovie m = new BlueRay(1003, "A Few Good Men", Genres.Drama);
+        ((BlueRay)m).Burn();
+
+        var y = (BlueRay)m;
+        y.Burn();
+
+        Stream x = new(1, "dg", Genres.Drama);
+        var u = (IMovie)x;*/
+    }
+}
+
