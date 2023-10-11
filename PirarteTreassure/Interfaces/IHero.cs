@@ -1,6 +1,6 @@
 ﻿namespace PirarteTreassure.Interfaces;
 
-public interface IHero
+public interface IHero: ICharacter
 {
     List<IHand> Hands { get; }
     void PickUp();
