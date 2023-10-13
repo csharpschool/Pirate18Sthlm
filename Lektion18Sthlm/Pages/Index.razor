@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using Lektion18Sthlm.Classes;
+@* @using Lektion18Sthlm.Classes;
 @using Lektion18Sthlm.Interfaces;
 
 <PageTitle>Index</PageTitle>
@@ -28,9 +28,9 @@
     </tbody>
 </table>
 
-<div>@message</div>
+<div>@message</div> *@
 
-@code{
+@* @code{
     List<IMovie> movies = new();
     string message = string.Empty;
 
@@ -55,5 +55,5 @@
         Stream x = new(1, "dg", Genres.Drama);
         var u = (IMovie)x;*/
     }
-}
+} *@
 

@@ -1,9 +1,31 @@
 ﻿@page "/"
+@using PirarteTreassure.Classes;
+@inject GameEngine ge
 
-<PageTitle>Index</PageTitle>
+<h1>Game</h1>
+<button class="btn btn-primary" @onclick="() => IsFightOn = ge.Challenge()">Challenge</button>
+<button class="btn btn-primary" @onclick="() => AttackValues = ge.Attack()">Hero Attack</button>
 
-<h1>Hello, world!</h1>
+<div>
+    @(IsFightOn ? "Fight" : "Flee")
+</div>
 
-Welcome to your new app.
+<div>
+    @if (AttackValues.Dead)
+    {
+        <h3>Moster killed</h3>
+    }
+    else if (AttackValues.Hit)
+    {
+        <h3>You did @AttackValues.Damage to the moster</h3>
+    }
+    else
+    {
+        <h3>You swing and miss</h3>
+    }
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    bool IsFightOn = false;
+    (bool Hit, double Damage, bool Dead) AttackValues;
+}

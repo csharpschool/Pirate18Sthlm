@@ -1,8 +1,10 @@
 ﻿namespace PirarteTreassure.Interfaces
 {
-    public interface ICharacter
+    public interface ICharacter : IStatus
     {
-        public IBackpack? Backpack { get; set; }
+        IBackpack? Backpack { get; set; }
+
+        //bool Challenge(List<ICharacter> adversaries);
 
     }
 }
