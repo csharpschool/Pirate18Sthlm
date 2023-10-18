@@ -2,7 +2,7 @@
 {
     public interface ICharacter : IStatus
     {
-        IBackpack? Backpack { get; set; }
+        IBackpack<IItem>? Backpack { get; set; }
 
         //bool Challenge(List<ICharacter> adversaries);
 

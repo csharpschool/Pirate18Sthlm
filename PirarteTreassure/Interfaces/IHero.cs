@@ -1,4 +1,6 @@
-﻿namespace PirarteTreassure.Interfaces;
+﻿using PirarteTreassure.Classes;
+
+namespace PirarteTreassure.Interfaces;
 
 public interface IHero: ICharacter
 {

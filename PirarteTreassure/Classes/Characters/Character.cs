@@ -4,7 +4,7 @@ namespace PirarteTreassure.Classes.Characters
 {
     public abstract class Character : ICharacter
     {
-        public IBackpack? Backpack { get; set; }
+        public IBackpack<IItem>? Backpack { get; set; }
         public int HP { get; set; }
         public int Energy { get; set; }
         public int Strength { get; set; }
