@@ -13,6 +13,16 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class
         base.Add(item);
     }
 
+    public void AddRange(List<T>? items)
+    {
+        if (items is null) return;
+        base.AddRange(items);
+    }
+
+    public void Empty() => Clear();
+   
+    public List<T> GetItems() => this;
+
     public void Position(T item)
     {
         throw new NotImplementedException();

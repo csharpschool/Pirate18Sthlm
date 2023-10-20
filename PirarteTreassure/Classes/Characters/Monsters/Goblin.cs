@@ -1,8 +1,10 @@
-﻿namespace PirarteTreassure.Classes.Characters.Monsters;
+﻿using PirarteTreassure.Interfaces;
+
+namespace PirarteTreassure.Classes.Characters.Monsters;
 
 public class Goblin : Character
 {
-    public Goblin()
+    public Goblin(List<IItem>? items = null) : base(items)
     {
         HP = 34;
         Energy = 50;

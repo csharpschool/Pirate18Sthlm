@@ -4,7 +4,8 @@ namespace PirarteTreassure.Classes.Characters
 {
     public abstract class Character : ICharacter
     {
-        public IBackpack<IItem>? Backpack { get; set; }
+        public IBackpack<IItem>? Backpack { get; set; } 
+            = new Backpack<IItem>();
         public int HP { get; set; }
         public int Energy { get; set; }
         public int Strength { get; set; }
@@ -14,7 +15,7 @@ namespace PirarteTreassure.Classes.Characters
         public int Stealth { get; set; }
         public int Intelligence { get; set; }
 
-        //public virtual bool Challenge(List<ICharacter> adversaries) =>
-        //    Level - adversaries.Sum(a => a.Level) > 0;
+        public Character(List<IItem>? items) => Backpack.AddRange(items);
+        
     }
 }

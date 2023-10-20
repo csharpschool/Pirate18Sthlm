@@ -1,5 +1,6 @@
 ﻿using PirarteTreassure.Classes.Characters.Heros;
 using PirarteTreassure.Classes.Characters.Monsters;
+using PirarteTreassure.Classes.Items.Valuables;
 using PirarteTreassure.Extensions;
 using PirarteTreassure.Interfaces;
 
@@ -8,10 +9,17 @@ namespace PirarteTreassure.Classes;
 public class GameEngine
 {
     ICharacter hero = new Barbarian();
+
     List<ICharacter> adversaries = new()
     {
         new Kraken(),
-        new Goblin()
+        new Goblin(new List<IItem>
+            {
+                new Coin(),
+                new Coin(),
+                new Coin()
+            }
+        )
     };
 
     public bool Challenge()

@@ -1,8 +1,10 @@
-﻿namespace PirarteTreassure.Classes.Characters.Monsters;
+﻿using PirarteTreassure.Interfaces;
+
+namespace PirarteTreassure.Classes.Characters.Monsters;
 
 public class Kraken : Character
 {
-    public Kraken()
+    public Kraken(List<IItem>? items = null) : base(items)
     {
         HP = 67;
         Energy = 50;
