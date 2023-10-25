@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using PirarteTreassure.Classes;
+@using PirarteTreassure.Interfaces;
 @inject GameEngine ge
 
 <h1>Game</h1>
@@ -8,7 +9,7 @@
 <button class="btn btn-primary" @onclick="async () => 
     { 
         //await ge.LootedItems.EmptyAsync();
-      ge.LootedItems.AddRange(await ge.Hero.Loot(ge.Adversaries[1]));}">
+      LootedItems = await ge.Hero.Loot(ge.Adversaries[1]);}">
     Loot Monster
 </button>
 
@@ -34,13 +35,14 @@
 </div>
 
 <ul>
-    @foreach(var item in ge.LootedItems)
+    @foreach(var item in LootedItems)
     {
         <li>@item.Name, @item.Size</li>
     }
 </ul>
 
 @code{
+    Backpack<IItem> LootedItems { get; set; } = new();
     bool IsFightOn = false;
     (bool Hit, double Damage, bool Dead) AttackValues;
 }

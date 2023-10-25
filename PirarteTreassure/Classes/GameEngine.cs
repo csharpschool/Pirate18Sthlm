@@ -4,6 +4,7 @@ using PirarteTreassure.Classes.Characters.Monsters;
 using PirarteTreassure.Classes.Items.Valuables;
 using PirarteTreassure.Extensions;
 using PirarteTreassure.Interfaces;
+using System.Collections.Concurrent;
 
 namespace PirarteTreassure.Classes;
 
@@ -23,7 +24,8 @@ public class GameEngine
         )
     };
 
-    public Backpack<IItem> LootedItems { get; private set; } = new();
+    public Backpack<IItem> LootedItems { get; set; } = new();
+    //public ConcurrentBag<IItem> LootedItems { get; private set; } = new();
 
     public bool Challenge()
     {

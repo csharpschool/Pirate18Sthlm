@@ -20,12 +20,22 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class
         base.AddRange(items);
     }
 
+    public async Task AddRangeAsync(List<T>? items)
+    {
+        if (items is null) return;
+        await Task.Run(() => base.AddRange(items));
+    }
+
     public void Empty() => Clear();
 
     public List<T> GetItems() => this;
 
-    public async Task EmptyAsync() => Task.Run(Clear);
-    public async Task<Backpack<T>> GetItemsAsync() => Task.Run(() => this).Result;
+    public async Task EmptyAsync()
+    {
+        var theTask = Task.Run(Clear);
+        await Task.WhenAll(theTask);
+    }
+    public async Task<Backpack<T>> GetItemsAsync() => await Task.Run(() => this);
 
     public void Position(T item)
     {
