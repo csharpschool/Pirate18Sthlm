@@ -1,4 +1,5 @@
-﻿using PirarteTreassure.Interfaces;
+﻿using PirarteTreassure.Classes.Characters;
+using PirarteTreassure.Interfaces;
 
 namespace PirarteTreassure.Classes;
 
@@ -20,8 +21,11 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class
     }
 
     public void Empty() => Clear();
-   
+
     public List<T> GetItems() => this;
+
+    public async Task EmptyAsync() => Task.Run(Clear);
+    public async Task<Backpack<T>> GetItemsAsync() => Task.Run(() => this).Result;
 
     public void Position(T item)
     {

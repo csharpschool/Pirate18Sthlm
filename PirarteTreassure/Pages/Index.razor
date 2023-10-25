@@ -5,6 +5,13 @@
 <h1>Game</h1>
 <button class="btn btn-primary" @onclick="() => IsFightOn = ge.Challenge()">Challenge</button>
 <button class="btn btn-primary" @onclick="() => AttackValues = ge.Attack()">Hero Attack</button>
+<button class="btn btn-primary" @onclick="async () => 
+    { 
+        //await ge.LootedItems.EmptyAsync();
+      ge.LootedItems.AddRange(await ge.Hero.Loot(ge.Adversaries[1]));}">
+    Loot Monster
+</button>
+
 
 <div>
     @(IsFightOn ? "Fight" : "Flee")
@@ -25,6 +32,13 @@
         <h3>You swing and miss</h3>
     }
 </div>
+
+<ul>
+    @foreach(var item in ge.LootedItems)
+    {
+        <li>@item.Name, @item.Size</li>
+    }
+</ul>
 
 @code{
     bool IsFightOn = false;

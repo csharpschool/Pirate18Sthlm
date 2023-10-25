@@ -18,19 +18,30 @@ public class Barbarian : Character, IHero
 
     public List<IHand> Hands { get; }
 
-    // TODO: Gör Loot async och anv. WhenAll för att loota all monster
-    // TODO: Gör så att BArbarian lootar när monstren dör
-    public List<IItem> Loot(ICharacter character)
+    /// TODO: Gör Loot async och anv. WhenAll för att loota all monster
+    /// TODO: Gör så att BArbarian lootar när monstren dör
+    /// TODO: Vikt hantering
+    public async Task<Backpack<IItem>> Loot(ICharacter character)
     {
-        var loot = character.Backpack?.GetItems();
-        character.Backpack?.Empty();
+        try
+        {
+            //var loot = character.Backpack?.GetItemsAsync();
+            //var empty = character.Backpack?.EmptyAsync();
+            //await Task.WhenAll(loot, empty);
+            //return loot?.Result ?? new List<IItem>();
 
-        return loot ?? new List<IItem>();
-
+            var loot = await character.Backpack?.GetItemsAsync();
+            await character.Backpack?.EmptyAsync();
+            return loot ?? new Backpack<IItem>();
+        }
+        catch
+        {
+            return new Backpack<IItem>();
+        }
+        
         //if(loot is null) return new List<IItem>();
         //return loot;
     }
-
     public void Drop()
     {
         throw new NotImplementedException();

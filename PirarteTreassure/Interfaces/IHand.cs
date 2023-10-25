@@ -6,7 +6,7 @@ public enum Hands
     Right
 }
 
-public interface IHand : IStorage
+public interface IHand : IStorage<IItem>
 {
     public Hands Hand { get; set; }
 

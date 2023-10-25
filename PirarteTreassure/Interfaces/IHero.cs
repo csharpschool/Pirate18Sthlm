@@ -7,6 +7,6 @@ public interface IHero: ICharacter
     List<IHand> Hands { get; }
     void PickUp();
     void Drop();
-    List<IItem> Loot(ICharacter character);
+    Task<Backpack<IItem>> Loot(ICharacter character);
 
 }
