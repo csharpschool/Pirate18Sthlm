@@ -8,5 +8,6 @@ public interface IHero: ICharacter
     void PickUp();
     void Drop();
     Task<Backpack<IItem>> Loot(ICharacter character);
-
+    void AddToBackpack(IItem item);
+    
 }

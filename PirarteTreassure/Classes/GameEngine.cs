@@ -7,6 +7,11 @@ using PirarteTreassure.Interfaces;
 using System.Collections.Concurrent;
 
 namespace PirarteTreassure.Classes;
+/// TODO: Visa Attackknappen bara om det finns motståndare
+/// TODO: Challenge knappen lägger till nya motståndare
+/// TODO: Kontrollera ledigt utrymme i ryggsäcken
+/// TODO: Gör så att BArbarian lootar när monstren dör
+/// TODO: Vikt hantering
 
 public class GameEngine
 {
@@ -24,8 +29,12 @@ public class GameEngine
         )
     };
 
+    public GameEngine()
+    {
+        Hero.Backpack?.Add(new Coin(1, 23, 1, 25, "Small Coin"));
+    }
+
     public Backpack<IItem> LootedItems { get; set; } = new();
-    //public ConcurrentBag<IItem> LootedItems { get; private set; } = new();
 
     public bool Challenge()
     {

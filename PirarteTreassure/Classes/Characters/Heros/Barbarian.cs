@@ -18,9 +18,6 @@ public class Barbarian : Character, IHero
 
     public List<IHand> Hands { get; }
 
-    /// TODO: Gör Loot async och anv. WhenAll för att loota all monster
-    /// TODO: Gör så att BArbarian lootar när monstren dör
-    /// TODO: Vikt hantering
     public async Task<Backpack<IItem>> Loot(ICharacter character)
     {
         try
@@ -51,5 +48,10 @@ public class Barbarian : Character, IHero
     public void PickUp()
     {
         throw new NotImplementedException();
+    }
+
+    public void AddToBackpack(IItem item)
+    {
+        Backpack?.Add(item);
     }
 }
