@@ -31,7 +31,8 @@ public class Barbarian : Character, IHero
             //return loot?.Result ?? new List<IItem>();
 
             var loot = await character.Backpack?.GetItemsAsync();
-            //await character.Backpack?.EmptyAsync();
+
+            character.Backpack = new Backpack<IItem>();
             return loot ?? new Backpack<IItem>();
         }
         catch

@@ -30,11 +30,8 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class
 
     public List<T> GetItems() => this;
 
-    public async Task EmptyAsync()
-    {
-        var theTask = Task.Run(Clear);
-        await Task.WhenAll(theTask);
-    }
+    public async Task EmptyAsync() => await Task.Run(Clear);
+    //public async Task<Backpack<T>> GetItemsAsync() => await Task.Run(() => this);
     public async Task<Backpack<T>> GetItemsAsync() => await Task.Run(() => this);
 
     public void Position(T item)

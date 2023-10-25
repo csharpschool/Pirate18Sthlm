@@ -13,10 +13,5 @@ namespace PirarteTreassure.Classes.Items.Valuables
         public Coin(int id, int value, int size, int maxCount, string name)
             => (Id, Value, Size, MaxCount, Name) 
             = (id, value, size, maxCount, name);
-
-        public Coin()
-        {
-            
-        }
     }
 }
