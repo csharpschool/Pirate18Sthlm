@@ -5,8 +5,12 @@
 
 <h1>Game</h1>
 <button class="btn btn-primary" @onclick="() => IsFightOn = ge.Challenge()">Challenge</button>
-<button class="btn btn-primary" @onclick="() => AttackValues = ge.Attack()">Hero Attack</button>
-<button class="btn btn-primary" @onclick="async () => LootedItems = await ge.Hero.Loot(ge.Adversaries[1])">
+@if(ge.Adversaries.Count > 0)
+{
+    <button class="btn btn-danger" @onclick="() => AttackValues = ge.Attack()">Hero Attack</button>
+}
+
+<button class="btn btn-primary" @onclick="async () => await ge.Hero.Loot(ge.Adversaries[1])">
     Loot Monster
 </button>
 
@@ -31,7 +35,7 @@
     }
 </div>
 
-<button @onclick="() => showInverntory = !showInverntory" type="button" class="btn mt-3" data-bs-toggle="button">Toggle button</button>
+<button @onclick="() => showInverntory = !showInverntory" type="button" class="btn btn-outline-success mt-3" data-bs-toggle="button">Toggle button</button>
 @if (showInverntory && ge.Hero.Backpack is not null)
 {
     <h3>Hero's backpack</h3>
@@ -44,6 +48,11 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td>Gold</td>
+                <td>@ge.Hero.Gold</td>
+                <td></td>
+            </tr>
             @foreach (var item in ge.Hero.Backpack.GetItems())
             {
                 <tr>
@@ -66,7 +75,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in LootedItems)
+        @if (ge.LootedItems.Gold > 0)
+        {
+            <tr>
+                <td>Gold</td>
+                <td>@ge.LootedItems.Gold</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => ge.LootedItems = ge.Hero.PickUp(ge.LootedItems)">Click me</button>
+                </td>
+            </tr>
+        }
+        @foreach (var item in ge.LootedItems.Items)
         {
             <tr>
                 <td>@item.Name</td>
@@ -81,7 +100,7 @@
 
 
 @code{
-    Backpack<IItem> LootedItems { get; set; } = new();
+    //Backpack<IItem> LootedItems { get; set; } = new();
     bool IsFightOn = false, showInverntory = false;
     (bool Hit, double Damage, bool Dead) AttackValues;
 }

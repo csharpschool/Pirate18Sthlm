@@ -1,19 +1,23 @@
-﻿using PirarteTreassure.Interfaces;
+﻿using PirarteTreassure.Classes.Items.Valuables;
+using PirarteTreassure.Interfaces;
 
 namespace PirarteTreassure.Classes.Characters.Monsters;
 
 public class Goblin : Character
 {
-    public Goblin(List<IItem>? items = null) : base(items)
+
+    public Goblin()
     {
-        HP = 34;
-        Energy = 50;
-        Strength = 45;
-        Level = 1;
-        Stamina = 23;
-        Speed = 5;
-        Stealth = 21;
-        Intelligence = -1;
+        HP = GenerateStat(31, 37);
+        Energy = GenerateStat(47, 53);
+        Strength = GenerateStat(42, 48);
+        Level = GenerateStat(1, 3);
+        Stamina = GenerateStat(20, 23);
+        Speed = GenerateStat(2, 7);
+        Stealth = GenerateStat(15, 25);
+        Intelligence = GenerateStat(1, 3) * - 1;
+        Gold = GenerateStat(3, 5) * Level;
+        //GenerateValuables();
     }
 
 }

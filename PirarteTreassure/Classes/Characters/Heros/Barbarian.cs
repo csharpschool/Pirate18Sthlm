@@ -14,27 +14,26 @@ public class Barbarian : Character, IHero
         Speed = 10;
         Stealth = 34;
         Intelligence = 20;
+        Gold = 0;
     }
 
     public List<IHand> Hands { get; }
 
-    public async Task<Backpack<IItem>> Loot(ICharacter character)
+    public async Task<(int Gold, Backpack<IItem> Items)> Loot(ICharacter character)
     {
         try
         {
-            //var loot = character.Backpack?.GetItemsAsync();
-            //var empty = character.Backpack?.EmptyAsync();
-            //await Task.WhenAll(loot, empty);
-            //return loot?.Result ?? new List<IItem>();
-
             var loot = await character.Backpack?.GetItemsAsync();
 
             character.Backpack = new Backpack<IItem>();
-            return loot ?? new Backpack<IItem>();
+
+            return loot is null 
+                ? (character.Gold, new Backpack<IItem>())
+                : (character.Gold, loot);
         }
         catch
         {
-            return new Backpack<IItem>();
+            return (character.Gold, new Backpack<IItem>());
         }
         
         //if(loot is null) return new List<IItem>();
@@ -45,11 +44,19 @@ public class Barbarian : Character, IHero
         throw new NotImplementedException();
     }
 
-    public void PickUp()
-    {
-        throw new NotImplementedException();
-    }
+    public (int Gold, Backpack<IItem> Items) PickUp((int Gold, Backpack<IItem> Items) loot)
+    { 
+        Gold += loot.Gold;
 
+        (int Gold, Backpack<IItem> Items) items = new()
+        {
+            Gold = 0,
+            Items = loot.Items
+        };
+
+        return items;
+    }
+    
     public void AddToBackpack(IItem item)
     {
         Backpack?.Add(item);

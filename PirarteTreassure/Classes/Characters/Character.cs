@@ -1,4 +1,5 @@
-﻿using PirarteTreassure.Interfaces;
+﻿using PirarteTreassure.Classes.Items.Valuables;
+using PirarteTreassure.Interfaces;
 
 namespace PirarteTreassure.Classes.Characters
 {
@@ -14,8 +15,28 @@ namespace PirarteTreassure.Classes.Characters
         public int Speed { get; set; }
         public int Stealth { get; set; }
         public int Intelligence { get; set; }
+        public int Gold { get; set; }
+
+        Random rnd = new();
+
+        protected int GenerateStat(int min, int max) => rnd.Next(min, max);
+        /*protected void GenerateValuables()
+        {
+            if(Level > 0)
+            {
+                if(rnd.NextInt64(0, 1) == 1)
+                {
+                    
+                    
+
+                }
+
+            }
+        }*/
+
 
         public Character(List<IItem>? items) => Backpack.AddRange(items);
-        
+        public Character() { }
+
     }
 }

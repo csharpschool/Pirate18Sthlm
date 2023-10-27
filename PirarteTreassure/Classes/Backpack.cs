@@ -29,6 +29,7 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class
     public void Empty() => Clear();
 
     public List<T> GetItems() => this;
+    public Backpack<T> GetBackpack() => this;
 
     public async Task EmptyAsync() => await Task.Run(Clear);
     public async Task<Backpack<T>> GetItemsAsync() => await Task.Run(() => this);

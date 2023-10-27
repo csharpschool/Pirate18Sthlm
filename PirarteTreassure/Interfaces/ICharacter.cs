@@ -3,8 +3,6 @@
     public interface ICharacter : IStatus
     {
         IBackpack<IItem>? Backpack { get; set; }
-
-        //bool Challenge(List<ICharacter> adversaries);
-
+        int Gold { get; set; }
     }
 }

@@ -7,40 +7,42 @@ using PirarteTreassure.Interfaces;
 using System.Collections.Concurrent;
 
 namespace PirarteTreassure.Classes;
-/// TODO: Visa Attackknappen bara om det finns motståndare
-/// TODO: Challenge knappen lägger till nya motståndare
+/// TODO: Fixa meddelandena för attack (interpolerad sträng för meddelandena)
 /// TODO: Kontrollera ledigt utrymme i ryggsäcken
-/// TODO: Gör så att BArbarian lootar när monstren dör
 /// TODO: Vikt hantering
+/// TODO: Monster ska inte alltid släppa värdesaker när de besegras
 
 public class GameEngine
 {
     public IHero Hero { get; init; } = new Barbarian();
 
-    public List<ICharacter> Adversaries { get; init; } = new()
+    List<ICharacter> Monsters { get; init; } = new()
     {
         new Kraken(),
-        new Goblin(new List<IItem>
-            {
-                new Coin(1, 23, 1, 25, "Large Gold Coin 1"),
-                new Coin(2, 23, 1, 25, "Large Gold Coin 2"),
-                new Coin(3, 23, 1, 25, "Large Gold Coin 3")
-            }
-        )
+        new Goblin()
     };
+
+    public List<ICharacter> Adversaries { get; private set; } = new();
 
     public GameEngine()
     {
         Hero.Backpack?.Add(new Coin(1, 23, 1, 25, "Small Coin"));
     }
 
-    public Backpack<IItem> LootedItems { get; set; } = new();
+    public (int Gold, Backpack<IItem> Items) LootedItems { get; set; } = new() 
+        { Gold = 0, Items = new Backpack<IItem>() };
 
     public bool Challenge()
     {
+        AddNewMonsters();
         var a = Adversaries.Sum(a => a.AttackStrength());
         var h = Hero.AttackStrength();
         return h >= a;
+    }
+
+    void AddNewMonsters()
+    {
+        Adversaries.AddRange(Monsters);
     }
 
     public (bool Hit, double Damage, bool Dead) Attack() 
@@ -54,7 +56,19 @@ public class GameEngine
         var inflictedDamage = (int)(Hero.AttackStrength() - a.DefenseValue());
         a.HP -= inflictedDamage;
 
-        if(a.HP <= 0) Adversaries.Remove(a);
+        if (a.HP <= 0)
+        {
+            LootedItems.Items.AddRange(a.Backpack?.GetBackpack());
+
+            (int Gold, Backpack<IItem> Items) items = new()
+            {
+                Gold = LootedItems.Gold + a.Gold,
+                Items = LootedItems.Items
+            };
+            LootedItems = items;
+
+            Adversaries.Remove(a);
+        }
 
         return (true, inflictedDamage, a.HP <= 0);
     }
