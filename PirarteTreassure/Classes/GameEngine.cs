@@ -2,6 +2,7 @@
 using PirarteTreassure.Classes.Characters.Heros;
 using PirarteTreassure.Classes.Characters.Monsters;
 using PirarteTreassure.Classes.Items.Valuables;
+using PirarteTreassure.Classes.Items.Weapons;
 using PirarteTreassure.Extensions;
 using PirarteTreassure.Interfaces;
 using System.Collections.Concurrent;
@@ -24,15 +25,17 @@ public class GameEngine
 
     public List<Attack> BattleLog { get; private set; } = new();
 
+    public (int Gold, Backpack<IItem> Items) LootedItems { get; set; } = new()
+    { Gold = 0, Items = new Backpack<IItem>(1000, 1000) };
+
     public GameEngine()
     {
-        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, "Ruby"));
-        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, "Ruby"));
-        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, "Ruby"));
+        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, 0.3, "Ruby"));
+        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, 0.25, "Small Ruby"));
+        var kraken = Monsters.Single(m => m.Name == "Bob");
+        kraken.Backpack?.Add(new Sword(0.95, "Jack"));
     }
 
-    public (int Gold, Backpack<IItem> Items) LootedItems { get; set; } = new() 
-        { Gold = 0, Items = new Backpack<IItem>(1000, 1000) };
 
     public bool Challenge()
     {
@@ -75,7 +78,12 @@ public class GameEngine
         if (a.HP <= 0)
         {
             a.HP = 0;
-            LootedItems.Items.AddRange(a.Backpack?.GetBackpack());
+            // Loot based on DropChance
+            var lootedItems =
+                a.Backpack?.GetBackpack().Where(
+                    i => i.DropChance > random.NextDouble());
+
+            LootedItems.Items.AddRange(lootedItems);
 
             (int Gold, Backpack<IItem> Items) items = new()
             {
@@ -91,5 +99,10 @@ public class GameEngine
         attack.AdversaryHP = a.HP;
         attack.Dead = a.HP == 0;
         BattleLog.Add(attack);
+    }
+
+    public void RemoveFromLoot(IItem item)
+    {
+        LootedItems.Items.Remove(item);
     }
 }

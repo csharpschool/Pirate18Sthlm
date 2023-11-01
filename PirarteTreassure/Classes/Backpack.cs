@@ -50,6 +50,6 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class, IItem
 
     public new void Remove(T item)
     {
-        throw new NotImplementedException();
+        base.Remove(item);
     }
 }

@@ -118,7 +118,13 @@
                 <td>@item.Name</td>
                 <td>@item.Size</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => ge.Hero.AddToBackpack(item)">Click me</button>
+                    <button class="btn btn-primary" 
+                    @onclick="() => 
+                    {
+                        ge.Hero.AddToBackpack(item);
+                        ge.RemoveFromLoot(item);
+                    }">Click me</button>
+
                 </td>
             </tr>
         }

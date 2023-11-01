@@ -2,9 +2,9 @@
 
 public interface IItem
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Size { get; set; }
-    public int Weight { get; set; }
-
+    int Id { get; set; }
+    string Name { get; set; }
+    int Size { get; set; }
+    int Weight { get; set; }
+    double DropChance { get; set; }
 }

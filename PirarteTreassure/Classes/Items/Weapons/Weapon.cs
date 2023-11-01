@@ -11,5 +11,12 @@ namespace PirarteTreassure.Classes.Items.Weapons
         public int Durability { get; set; }
         public double BaseDamage { get; set; } // Vapnets skada
         public int Weight { get; set; }
+        public double DropChance { get; set; }
+
+        public Weapon(string name, double dropChance)
+        {
+            Name = name;
+            DropChance = dropChance;
+        }
     }
 }
