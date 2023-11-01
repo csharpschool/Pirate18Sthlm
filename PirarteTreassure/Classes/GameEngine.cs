@@ -7,19 +7,17 @@ using PirarteTreassure.Interfaces;
 using System.Collections.Concurrent;
 
 namespace PirarteTreassure.Classes;
-/// TODO: Kontrollera ledigt utrymme i ryggsäcken
-/// TODO: Vikt hantering
 /// TODO: Monster fight back
 /// TODO: Monster ska inte alltid släppa värdesaker när de besegras
 
 public class GameEngine
 {
-    public IHero Hero { get; init; } = new Barbarian("Conan", 25);
+    public IHero Hero { get; init; } = new Barbarian("Conan", 25, 36);
 
     List<ICharacter> Monsters { get; init; } = new()
     {
-        new Kraken("Bob", 25),
-        new Goblin("Floof", 0)
+        new Kraken("Bob", 25, 300),
+        new Goblin("Floof", 0, 0)
     };
 
     public List<ICharacter> Adversaries { get; private set; } = new();
@@ -34,7 +32,7 @@ public class GameEngine
     }
 
     public (int Gold, Backpack<IItem> Items) LootedItems { get; set; } = new() 
-        { Gold = 0, Items = new Backpack<IItem>(25) };
+        { Gold = 0, Items = new Backpack<IItem>(1000, 1000) };
 
     public bool Challenge()
     {

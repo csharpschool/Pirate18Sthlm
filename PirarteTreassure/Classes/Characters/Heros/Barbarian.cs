@@ -4,7 +4,8 @@ namespace PirarteTreassure.Classes.Characters.Heros;
 
 public class Barbarian : Character, IHero
 {
-    public Barbarian(string name, int backpackMaxWeight, List<IItem>? items = null) : base(items, name, backpackMaxWeight)
+    public Barbarian(string name, int backpackMaxWeight, int maxBackpackSize, List<IItem>? items = null) 
+        : base(items, name, backpackMaxWeight, maxBackpackSize)
     {
         HP = 45;
         Energy = 76;
@@ -25,15 +26,15 @@ public class Barbarian : Character, IHero
         {
             var loot = await character.Backpack?.GetItemsAsync();
 
-            character.Backpack = new Backpack<IItem>(character.MaxBackpackWeight);
+            character.Backpack = new Backpack<IItem>(character.MaxBackpackWeight, character.MaxBackpackSize);
 
             return loot is null 
-                ? (character.Gold, new Backpack<IItem>(character.MaxBackpackWeight))
+                ? (character.Gold, new Backpack<IItem>(character.MaxBackpackWeight, character.MaxBackpackSize))
                 : (character.Gold, loot);
         }
         catch
         {
-            return (character.Gold, new Backpack<IItem>(character.MaxBackpackWeight));
+            return (character.Gold, new Backpack<IItem>(character.MaxBackpackWeight, character.MaxBackpackSize));
         }
         
         //if(loot is null) return new List<IItem>();

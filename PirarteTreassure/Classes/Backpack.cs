@@ -6,18 +6,20 @@ namespace PirarteTreassure.Classes;
 public class Backpack<T> : List<T>, IBackpack<T> where T : class, IItem
 {
     public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public int MaxSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public int MaxSize { get; set; }
     public int SquareSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public int MaxWeight { get; init; }
     public int FreeWeight => MaxWeight - this.Sum(w => w.Weight);
+    public int FreeSpace => MaxSize - Count;
 
-    public Backpack(int maxWeight)
+    public Backpack(int maxWeight, int maxSize)
     {
         MaxWeight = maxWeight;
+        MaxSize = maxSize;
     }
     public new void Add(T item)
     {
-        if(item.Weight <= FreeWeight)
+        if(item.Weight <= FreeWeight && item.Size <= FreeSpace)
             base.Add(item);
     }
 

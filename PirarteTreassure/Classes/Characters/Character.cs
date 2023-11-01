@@ -17,6 +17,7 @@ namespace PirarteTreassure.Classes.Characters
         public int Gold { get; set; }
         public string Name { get; init; }
         public int MaxBackpackWeight { get; init; }
+        public int MaxBackpackSize { get; init; }
 
         Random rnd = new();
 
@@ -36,11 +37,12 @@ namespace PirarteTreassure.Classes.Characters
         }*/
 
 
-        public Character(List<IItem>? items, string name, int maxWeight)
+        public Character(List<IItem>? items, string name, int maxWeight, int maxSize)
         { 
             Name = name;
             MaxBackpackWeight = maxWeight;
-            Backpack = new Backpack<IItem>(maxWeight);
+            MaxBackpackSize = maxSize;
+            Backpack = new Backpack<IItem>(maxWeight, maxSize);
             Backpack?.AddRange(items);
         }
 

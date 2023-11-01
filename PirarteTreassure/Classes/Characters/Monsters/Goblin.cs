@@ -6,7 +6,8 @@ namespace PirarteTreassure.Classes.Characters.Monsters;
 public class Goblin : Character
 {
 
-    public Goblin(string name, int backpackMaxWeight) : base(null, name, backpackMaxWeight)
+    public Goblin(string name, int backpackMaxWeight, int maxBackpackSize) 
+        : base(null, name, backpackMaxWeight, maxBackpackSize)
     {
         HP = GenerateStat(31, 37);
         Energy = GenerateStat(47, 53);

@@ -2,14 +2,15 @@
 {
     public interface IStatus
     {
-        public int HP { get; set; } // Hälsa
-        public int Energy { get; set; } // Energi/Mat
-        public int Strength { get; set; }
-        public int Level { get; set; }
-        public int Stamina { get; set; }
-        public int Speed { get; set; }
-        public int Stealth { get; set; }
-        public int Intelligence { get; set; }
-        public int MaxBackpackWeight { get; init; }
+        int HP { get; set; } // Hälsa
+        int Energy { get; set; } // Energi/Mat
+        int Strength { get; set; }
+        int Level { get; set; }
+        int Stamina { get; set; }
+        int Speed { get; set; }
+        int Stealth { get; set; }
+        int Intelligence { get; set; }
+        int MaxBackpackWeight { get; init; }
+        int MaxBackpackSize { get; init; }
     }
 }
