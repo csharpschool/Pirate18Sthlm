@@ -2,7 +2,7 @@
 
 namespace PirarteTreassure.Interfaces;
 
-public interface IBackpack<T> : IStorage<T> where T : class
+public interface IBackpack<T> : IStorage<T> where T : class, IItem
 {
     void Sort();
     void Position(T item);

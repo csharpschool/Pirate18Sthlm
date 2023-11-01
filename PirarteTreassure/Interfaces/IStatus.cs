@@ -10,6 +10,6 @@
         public int Speed { get; set; }
         public int Stealth { get; set; }
         public int Intelligence { get; set; }
-        //public int Attack { get; set; }
+        public int MaxBackpackWeight { get; init; }
     }
 }

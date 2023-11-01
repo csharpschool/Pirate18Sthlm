@@ -5,8 +5,7 @@ namespace PirarteTreassure.Classes.Characters
 {
     public abstract class Character : ICharacter
     {
-        public IBackpack<IItem>? Backpack { get; set; } 
-            = new Backpack<IItem>();
+        public IBackpack<IItem>? Backpack { get; set; }
         public int HP { get; set; }
         public int Energy { get; set; }
         public int Strength { get; set; }
@@ -16,6 +15,8 @@ namespace PirarteTreassure.Classes.Characters
         public int Stealth { get; set; }
         public int Intelligence { get; set; }
         public int Gold { get; set; }
+        public string Name { get; init; }
+        public int MaxBackpackWeight { get; init; }
 
         Random rnd = new();
 
@@ -35,8 +36,13 @@ namespace PirarteTreassure.Classes.Characters
         }*/
 
 
-        public Character(List<IItem>? items) => Backpack.AddRange(items);
-        public Character() { }
+        public Character(List<IItem>? items, string name, int maxWeight)
+        { 
+            Name = name;
+            MaxBackpackWeight = maxWeight;
+            Backpack = new Backpack<IItem>(maxWeight);
+            Backpack?.AddRange(items);
+        }
 
     }
 }

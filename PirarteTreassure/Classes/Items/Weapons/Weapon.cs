@@ -10,6 +10,6 @@ namespace PirarteTreassure.Classes.Items.Weapons
         public int Size { get; set; }
         public int Durability { get; set; }
         public double BaseDamage { get; set; } // Vapnets skada
-        
+        public int Weight { get; set; }
     }
 }

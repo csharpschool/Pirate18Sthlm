@@ -7,30 +7,34 @@ using PirarteTreassure.Interfaces;
 using System.Collections.Concurrent;
 
 namespace PirarteTreassure.Classes;
-/// TODO: Fixa meddelandena för attack (interpolerad sträng för meddelandena)
 /// TODO: Kontrollera ledigt utrymme i ryggsäcken
 /// TODO: Vikt hantering
+/// TODO: Monster fight back
 /// TODO: Monster ska inte alltid släppa värdesaker när de besegras
 
 public class GameEngine
 {
-    public IHero Hero { get; init; } = new Barbarian();
+    public IHero Hero { get; init; } = new Barbarian("Conan", 25);
 
     List<ICharacter> Monsters { get; init; } = new()
     {
-        new Kraken(),
-        new Goblin()
+        new Kraken("Bob", 25),
+        new Goblin("Floof", 0)
     };
 
     public List<ICharacter> Adversaries { get; private set; } = new();
 
+    public List<Attack> BattleLog { get; private set; } = new();
+
     public GameEngine()
     {
-        Hero.Backpack?.Add(new Coin(1, 23, 1, 25, "Small Coin"));
+        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, "Ruby"));
+        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, "Ruby"));
+        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, "Ruby"));
     }
 
     public (int Gold, Backpack<IItem> Items) LootedItems { get; set; } = new() 
-        { Gold = 0, Items = new Backpack<IItem>() };
+        { Gold = 0, Items = new Backpack<IItem>(25) };
 
     public bool Challenge()
     {
@@ -45,19 +49,34 @@ public class GameEngine
         Adversaries.AddRange(Monsters);
     }
 
-    public (bool Hit, double Damage, bool Dead) Attack() 
+    public void Attack() 
     {
         var random = new Random();
         var hit = random.NextDouble() > 0.2;
-        if (!hit) return (false, 0, false);
-
         var minHP = Adversaries.Min(a => a.HP);
         var a = Adversaries.First(s => s.HP == minHP);
+        var attack = new Attack()
+        {
+            Adversary = a.Name,
+            AdversaryHP = a.HP,
+            Attacker = Hero.Name,
+            AttackerHP = Hero.HP,
+            Damage = 0,
+            Dead = false
+        };
+
+        if (!hit)//return (false, 0, false);
+        {
+            BattleLog.Add(attack);
+            return;
+        }
+
         var inflictedDamage = (int)(Hero.AttackStrength() - a.DefenseValue());
         a.HP -= inflictedDamage;
 
         if (a.HP <= 0)
         {
+            a.HP = 0;
             LootedItems.Items.AddRange(a.Backpack?.GetBackpack());
 
             (int Gold, Backpack<IItem> Items) items = new()
@@ -70,6 +89,9 @@ public class GameEngine
             Adversaries.Remove(a);
         }
 
-        return (true, inflictedDamage, a.HP <= 0);
+        attack.Damage = inflictedDamage;
+        attack.AdversaryHP = a.HP;
+        attack.Dead = a.HP == 0;
+        BattleLog.Add(attack);
     }
 }

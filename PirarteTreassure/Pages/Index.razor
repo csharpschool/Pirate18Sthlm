@@ -5,35 +5,46 @@
 
 <h1>Game</h1>
 <button class="btn btn-primary" @onclick="() => IsFightOn = ge.Challenge()">Challenge</button>
-@if(ge.Adversaries.Count > 0)
+@if (ge.Adversaries.Count > 0)
 {
-    <button class="btn btn-danger" @onclick="() => AttackValues = ge.Attack()">Hero Attack</button>
+    <button class="btn btn-danger" @onclick="() => ge.Attack()">Hero Attack</button>
 }
 
-<button class="btn btn-primary" @onclick="async () => await ge.Hero.Loot(ge.Adversaries[1])">
+@* <button class="btn btn-primary" @onclick="async () => await ge.Hero.Loot(ge.Adversaries[1])">
     Loot Monster
 </button>
-
+ 
 
 <div>
     @(IsFightOn ? "Fight" : "Flee")
-</div>
+</div>*@
 
-<div>
-    @if (AttackValues.Dead)
-    {
-        <h3>Moster killed</h3>
-
-    }
-    else if (AttackValues.Hit)
-    {
-        <h3>You did @AttackValues.Damage to the moster</h3>
-    }
-    else
-    {
-        <h3>You swing and miss</h3>
-    }
-</div>
+<h3>Battle Log</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Attacker</th>
+            <th>HP</th>
+            <th>Adversary</th>
+            <th>HP</th>
+            <th>Damage</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attack in ge.BattleLog)
+        {
+            <tr>
+                <td>@attack.Attacker</td>
+                <td>@attack.AttackerHP</td>
+                <td>@attack.Adversary</td>
+                <td>@attack.AdversaryHP</td>
+                <td>@attack.Damage</td>
+                <td>@(attack.Dead ? "Dead" : "Alive")</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <button @onclick="() => showInverntory = !showInverntory" type="button" class="btn btn-outline-success mt-3" data-bs-toggle="button">Toggle button</button>
 @if (showInverntory && ge.Hero.Backpack is not null)
@@ -44,6 +55,7 @@
             <tr>
                 <th>Name</th>
                 <th>Size</th>
+                <th>Weight</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -52,12 +64,20 @@
                 <td>Gold</td>
                 <td>@ge.Hero.Gold</td>
                 <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Free Weight</td>
+                <td></td>
+                <td>@ge.Hero.Backpack.FreeWeight / @ge.Hero.Backpack.MaxWeight</td>
+                <td></td>
             </tr>
             @foreach (var item in ge.Hero.Backpack.GetItems())
             {
                 <tr>
                     <td>@item.Name</td>
                     <td>@item.Size</td>
+                    <td>@item.Weight</td>
                     <td></td>
                 </tr>
             }
@@ -102,5 +122,4 @@
 @code{
     //Backpack<IItem> LootedItems { get; set; } = new();
     bool IsFightOn = false, showInverntory = false;
-    (bool Hit, double Damage, bool Dead) AttackValues;
 }

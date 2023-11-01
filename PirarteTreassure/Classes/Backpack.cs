@@ -3,15 +3,22 @@ using PirarteTreassure.Interfaces;
 
 namespace PirarteTreassure.Classes;
 
-public class Backpack<T> : List<T>, IBackpack<T> where T : class
+public class Backpack<T> : List<T>, IBackpack<T> where T : class, IItem
 {
     public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public int MaxSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public int SquareSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public int MaxWeight { get; init; }
+    public int FreeWeight => MaxWeight - this.Sum(w => w.Weight);
 
+    public Backpack(int maxWeight)
+    {
+        MaxWeight = maxWeight;
+    }
     public new void Add(T item)
     {
-        base.Add(item);
+        if(item.Weight <= FreeWeight)
+            base.Add(item);
     }
 
     public void AddRange(List<T>? items)
