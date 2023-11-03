@@ -9,7 +9,6 @@ using PirarteTreassure.Interfaces;
 using System.Net.Http.Headers;
 
 namespace PirarteTreassure.Classes;
-/// TODO: Monster fight back
 /// TODO: Avatar för karaktärer
 /// TODO: Shop
 /// TODO: Slänga prylar
@@ -82,6 +81,7 @@ public class GameEngine
 
         var inflictedDamage = (int)(Hero.AttackStrength() - a.DefenseValue());
         a.HP -= inflictedDamage;
+        Hero.AdrenalineBoost = 0;
 
         if (a.HP <= 0)
         {
@@ -166,7 +166,7 @@ public class GameEngine
         Hero.HP += (int)potion.Strength;
         if(Hero.HP > 100) Hero.HP = 100;
 
-        if (remainingStrength > 0) 
+        if (remainingStrength > 0)
             Hero.AdrenalineBoost = remainingStrength;
 
         BattleLog.Add(new Attack
