@@ -1,24 +1,27 @@
-﻿using PirarteTreassure.Classes.Characters;
+﻿using Microsoft.AspNetCore.Components.Web;
 using PirarteTreassure.Classes.Characters.Heros;
 using PirarteTreassure.Classes.Characters.Monsters;
 using PirarteTreassure.Classes.Items.Valuables;
 using PirarteTreassure.Classes.Items.Weapons;
 using PirarteTreassure.Extensions;
 using PirarteTreassure.Interfaces;
-using System.Collections.Concurrent;
 
 namespace PirarteTreassure.Classes;
 /// TODO: Monster fight back
-/// TODO: Monster ska inte alltid släppa värdesaker när de besegras
+/// TODO: Avatar för karaktärer
+/// TODO: Shop
+/// TODO: Slänga prylar
+/// TODO: Starta om spelet då hjälten dör
+
 
 public class GameEngine
 {
-    public IHero Hero { get; init; } = new Barbarian("Conan", 25, 36);
+    public IHero Hero { get; init; } = new Barbarian("Conan", 25, 36, 0.2);
 
     List<ICharacter> Monsters { get; init; } = new()
     {
-        new Kraken("Bob", 25, 300),
-        new Goblin("Floof", 0, 0)
+        new Kraken("Bob", 25, 300, 0.25),
+        new Goblin("Floof", 0, 0, 0.8)
     };
 
     public List<ICharacter> Adversaries { get; private set; } = new();
@@ -53,7 +56,7 @@ public class GameEngine
     public void Attack() 
     {
         var random = new Random();
-        var hit = random.NextDouble() > 0.2;
+        var hit = random.NextDouble() > Hero.MissFactor;
         var minHP = Adversaries.Min(a => a.HP);
         var a = Adversaries.First(s => s.HP == minHP);
         var attack = new Attack()
@@ -69,6 +72,7 @@ public class GameEngine
         if (!hit)//return (false, 0, false);
         {
             BattleLog.Add(attack);
+            MonsterAttack();
             return;
         }
 
@@ -99,8 +103,50 @@ public class GameEngine
         attack.AdversaryHP = a.HP;
         attack.Dead = a.HP == 0;
         BattleLog.Add(attack);
-    }
 
+        MonsterAttack();
+    }
+    public void MonsterAttack()
+    {
+        var random = new Random();
+        var orderedAdversaries = 
+            Adversaries.OrderByDescending(a => a.HP);
+
+        foreach (var a in orderedAdversaries)
+        {
+            var attack = new Attack()
+            {
+                Adversary = Hero.Name,
+                AdversaryHP = Hero.HP,
+                Attacker = a.Name,
+                AttackerHP = a.HP,
+                Damage = 0,
+                Dead = false
+            };
+
+            var hit = random.NextDouble() > a.MissFactor;
+
+            if (!hit)
+            {
+                BattleLog.Add(attack);
+                continue;
+            }
+
+            var inflictedDamage = (int)(a.AttackStrength() - Hero.DefenseValue());
+            Hero.HP -= inflictedDamage;
+            attack.Damage = inflictedDamage;
+
+            if (Hero.HP <= 0)
+            {
+                Hero.HP = 0;
+                attack.Dead = Hero.HP == 0;
+                BattleLog.Add(attack);
+                return;
+            }
+
+            BattleLog.Add(attack);
+        }
+    }
     public void RemoveFromLoot(IItem item)
     {
         LootedItems.Items.Remove(item);

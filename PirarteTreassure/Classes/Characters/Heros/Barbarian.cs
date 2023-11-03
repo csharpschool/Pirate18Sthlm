@@ -4,8 +4,8 @@ namespace PirarteTreassure.Classes.Characters.Heros;
 
 public class Barbarian : Character, IHero
 {
-    public Barbarian(string name, int backpackMaxWeight, int maxBackpackSize, List<IItem>? items = null) 
-        : base(items, name, backpackMaxWeight, maxBackpackSize)
+    public Barbarian(string name, int backpackMaxWeight, int maxBackpackSize, double missFactor, List<IItem>? items = null) 
+        : base(items, name, backpackMaxWeight, maxBackpackSize, missFactor)
     {
         HP = 45;
         Energy = 76;

@@ -4,8 +4,8 @@ namespace PirarteTreassure.Classes.Characters.Monsters;
 
 public class Kraken : Character
 {
-    public Kraken(string name, int backpackMaxWeight, int maxBackpackSize, List<IItem>? items = null) 
-        : base(items, name, backpackMaxWeight, maxBackpackSize)
+    public Kraken(string name, int backpackMaxWeight, int maxBackpackSize, double missFactor, List<IItem>? items = null) 
+        : base(items, name, backpackMaxWeight, maxBackpackSize, missFactor)
     {
         HP = GenerateStat(63, 70);
         Energy = GenerateStat(45, 55);
