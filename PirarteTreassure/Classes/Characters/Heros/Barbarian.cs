@@ -16,6 +16,7 @@ public class Barbarian : Character, IHero
         Stealth = 34;
         Intelligence = 20;
         Gold = 0;
+        Avatar = "pirate.png";
     }
 
     public List<IHand> Hands { get; }

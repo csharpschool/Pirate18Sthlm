@@ -18,6 +18,7 @@ public class Goblin : Character
         Stealth = GenerateStat(15, 25);
         Intelligence = GenerateStat(1, 3) * - 1;
         Gold = GenerateStat(3, 5) * Level;
+        Avatar = "goblin.png";
         //GenerateValuables();
     }
 

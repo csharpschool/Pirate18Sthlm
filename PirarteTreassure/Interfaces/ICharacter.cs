@@ -5,5 +5,6 @@
         IBackpack<IItem>? Backpack { get; set; }
         int Gold { get; set; }
         string Name { get; init; }
+        string Avatar { get; init; }
     }
 }

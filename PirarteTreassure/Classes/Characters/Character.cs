@@ -16,6 +16,7 @@ namespace PirarteTreassure.Classes.Characters
         public int Intelligence { get; set; }
         public int Gold { get; set; }
         public string Name { get; init; }
+        public string Avatar { get; init; }
         public int MaxBackpackWeight { get; init; }
         public int MaxBackpackSize { get; init; }
         public double MissFactor { get; init; }

@@ -5,8 +5,8 @@
 @inject GameEngine ge
 
 <div class="d-flex justify-content-between">
-<img src="pirate.png" />
-<img src="monster.png" />
+    <img src="pirate.png" />
+    <img src="monster.png" />
 </div>
 
 <h1>Game</h1>
@@ -41,9 +41,15 @@
         @foreach (var attack in ge.BattleLog)
         {
             <tr>
-                <td>@attack.Attacker</td>
+                <td>
+                    <img style="width:50px;" src="@attack.AttackerAvatar" />
+                    @attack.Attacker
+                </td>
                 <td>@attack.AttackerHP</td>
-                <td>@attack.Adversary</td>
+                <td>
+                    <img style="width:50px;" src="@attack.AdversaryAvatar" />
+                    @attack.Adversary
+                </td>
                 <td>@attack.AdversaryHP</td>
                 <td>@attack.Damage</td>
                 <td>@attack.Message</td>

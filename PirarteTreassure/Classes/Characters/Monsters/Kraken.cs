@@ -16,6 +16,7 @@ public class Kraken : Character
         Stealth = GenerateStat(80, 90);
         Intelligence = GenerateStat(7, 12);
         Gold = GenerateStat(100, 200) * Level;
+        Avatar = "monster.png";
     }
 
 }

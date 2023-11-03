@@ -66,8 +66,10 @@ public class GameEngine
         {
             Adversary = a.Name,
             AdversaryHP = a.HP,
+            AdversaryAvatar = a.Avatar,
             Attacker = Hero.Name,
             AttackerHP = Hero.HP,
+            AttackerAvatar = Hero.Avatar,
             Damage = 0,
             Dead = false
         };
@@ -123,8 +125,10 @@ public class GameEngine
             {
                 Adversary = Hero.Name,
                 AdversaryHP = Hero.HP,
+                AdversaryAvatar = Hero.Avatar,
                 Attacker = a.Name,
                 AttackerHP = a.HP,
+                AttackerAvatar = a.Avatar,
                 Damage = 0,
                 Dead = false
             };
