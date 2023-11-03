@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using PirarteTreassure.Classes.Characters.Heros;
 using PirarteTreassure.Classes.Characters.Monsters;
+using PirarteTreassure.Classes.Items.Consumables;
 using PirarteTreassure.Classes.Items.Valuables;
 using PirarteTreassure.Classes.Items.Weapons;
 using PirarteTreassure.Extensions;
 using PirarteTreassure.Interfaces;
+using System.Net.Http.Headers;
 
 namespace PirarteTreassure.Classes;
 /// TODO: Monster fight back
@@ -34,7 +36,9 @@ public class GameEngine
     public GameEngine()
     {
         Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, 0.3, "Ruby"));
-        Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, 0.25, "Small Ruby"));
+        Hero.Backpack?.Add(new Ruby(2, 23, 1, 10, 25, 0.25, "Small Ruby"));
+        Hero.Backpack?.Add(new HealthPotion(3, 23, 1, 3, 25, 0.5, 
+            "Health Potion", PotionStrength.Super));
         var kraken = Monsters.Single(m => m.Name == "Bob");
         kraken.Backpack?.Add(new Sword(0.95, "Jack"));
     }
@@ -102,6 +106,7 @@ public class GameEngine
         attack.Damage = inflictedDamage;
         attack.AdversaryHP = a.HP;
         attack.Dead = a.HP == 0;
+        attack.Message = attack.Dead ? "Dead" : "Alive";
         BattleLog.Add(attack);
 
         MonsterAttack();
@@ -140,6 +145,7 @@ public class GameEngine
             {
                 Hero.HP = 0;
                 attack.Dead = Hero.HP == 0;
+                attack.Message = attack.Dead ? "Dead" : "Alive";
                 BattleLog.Add(attack);
                 return;
             }
@@ -150,5 +156,32 @@ public class GameEngine
     public void RemoveFromLoot(IItem item)
     {
         LootedItems.Items.Remove(item);
+    }
+
+    public void DrinkPotion(HealthPotion potion)
+    {
+        var remainingStrength =
+            (int)potion.Strength - (100 - Hero.HP);
+        
+        Hero.HP += (int)potion.Strength;
+        if(Hero.HP > 100) Hero.HP = 100;
+
+        if (remainingStrength > 0) 
+            Hero.AdrenalineBoost = remainingStrength;
+
+        BattleLog.Add(new Attack
+        {
+            Message = remainingStrength <= 0
+                ? $"Drank a Helth Potion ({(int)potion.Strength})"
+                : $"Adrenaline Boost ({remainingStrength})",
+            Adversary = "",
+            AdversaryHP = 0,
+            Attacker = Hero.Name,
+            AttackerHP = Hero.HP,
+            Damage = 0,
+            Dead = false
+        });
+
+        Hero.Backpack?.Remove(potion);
     }
 }

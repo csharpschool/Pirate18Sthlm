@@ -19,6 +19,7 @@ namespace PirarteTreassure.Classes.Characters
         public int MaxBackpackWeight { get; init; }
         public int MaxBackpackSize { get; init; }
         public double MissFactor { get; init; }
+        public int AdrenalineBoost { get; set; }
 
         Random rnd = new();
 

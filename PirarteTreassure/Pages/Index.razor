@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using PirarteTreassure.Classes;
+@using PirarteTreassure.Classes.Items.Consumables;
 @using PirarteTreassure.Interfaces;
 @inject GameEngine ge
 
@@ -40,7 +41,7 @@
                 <td>@attack.Adversary</td>
                 <td>@attack.AdversaryHP</td>
                 <td>@attack.Damage</td>
-                <td>@(attack.Dead ? "Dead" : "Alive")</td>
+                <td>@attack.Message</td>
             </tr>
         }
     </tbody>
@@ -78,6 +79,12 @@
                 <td>@ge.Hero.Backpack.FreeSpace / @ge.Hero.Backpack.MaxSize</td>
                 <td></td>
             </tr>
+            <tr>
+                <td>HP @(ge.Hero.Name)</td>
+                <td></td>
+                <td>@ge.Hero.HP</td>
+                <td></td>
+            </tr>
 
             @foreach (var item in ge.Hero.Backpack.GetItems())
             {
@@ -85,7 +92,12 @@
                     <td>@item.Name</td>
                     <td>@item.Size</td>
                     <td>@item.Weight</td>
-                    <td></td>
+                    <td>
+                        @if (item.GetType() == typeof(HealthPotion))
+                        {
+                            <button class="btn btn-danger" @onclick="() => ge.DrinkPotion((HealthPotion)item)">Drink</button>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

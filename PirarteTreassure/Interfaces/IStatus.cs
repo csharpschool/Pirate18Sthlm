@@ -13,5 +13,6 @@
         int MaxBackpackWeight { get; init; }
         int MaxBackpackSize { get; init; }
         double MissFactor { get; init; }
+        int AdrenalineBoost { get; set; }
     }
 }

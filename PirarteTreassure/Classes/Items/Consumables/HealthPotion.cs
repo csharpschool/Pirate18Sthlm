@@ -23,6 +23,7 @@ public class HealthPotion : IItem
         int maxCount, double dropChance, string name, 
         PotionStrength strength = PotionStrength.Lesser)
         => (Id, Value, Size, Weight, MaxCount, DropChance, Name, Strength)
-        = (id, value, size, weight, maxCount, dropChance, name, strength);
+        = (id, value, size, weight, maxCount, dropChance, 
+            $"{name} ({Enum.GetName(typeof(PotionStrength), strength)}: {(int)strength})", strength);
 
 }
