@@ -4,6 +4,11 @@
 @using PirarteTreassure.Interfaces;
 @inject GameEngine ge
 
+<div class="d-flex justify-content-between">
+<img src="pirate.png" />
+<img src="monster.png" />
+</div>
+
 <h1>Game</h1>
 <button class="btn btn-primary" @onclick="() => IsFightOn = ge.Challenge()">Challenge</button>
 @if (ge.Adversaries.Count > 0)
