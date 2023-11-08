@@ -10,7 +10,6 @@ using PirarteTreassure.Structs;
 using System.Net.Http.Headers;
 
 namespace PirarteTreassure.Classes;
-/// TODO: Shop
 /// TODO: Slänga prylar
 /// TODO: Starta om spelet då hjälten dör
 
