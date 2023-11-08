@@ -11,9 +11,11 @@ namespace PirarteTreassure.Classes.Items.Valuables
         public int MaxCount { get; set; }
         public int Weight { get; set; }
         public double DropChance { get; set; }
+        public bool CanBuy { get; set; }
+        public int Price { get; set; }
 
-        public Ruby(int id, int value, int size, int weight, int maxCount, double dropChance, string name)
-            => (Id, Value, Size, Weight, MaxCount, DropChance, Name) 
-            = (id, value, size, weight, maxCount, dropChance, name);
+        public Ruby(int id, int value, int size, int weight, int maxCount, double dropChance, string name, int price)
+            => (Id, Value, Size, Weight, MaxCount, DropChance, Name, Price) 
+            = (id, value, size, weight, maxCount, dropChance, name, price);
     }
 }

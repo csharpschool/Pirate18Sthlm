@@ -7,4 +7,6 @@ public interface IItem
     int Size { get; set; }
     int Weight { get; set; }
     double DropChance { get; set; }
+    bool CanBuy { get; set; }
+    int Price { get; set; }
 }

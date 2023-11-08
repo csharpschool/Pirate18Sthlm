@@ -2,8 +2,8 @@
 {
     public class Sword : Weapon
     {
-        public Sword(double dropChance, string name) 
-            : base(name, dropChance)
+        public Sword(double dropChance, string name, int price) 
+            : base(name, dropChance, price)
         {
         }
     }

@@ -18,12 +18,14 @@ public class HealthPotion : IItem
     public int Weight { get; set; }
     public double DropChance { get; set; }
     public PotionStrength Strength { get; init; }
+    public bool CanBuy { get; set; }
+    public int Price { get; set; }
 
     public HealthPotion(int id, int value, int size, int weight,
-        int maxCount, double dropChance, string name, 
+        int maxCount, double dropChance, string name, int price,
         PotionStrength strength = PotionStrength.Lesser)
-        => (Id, Value, Size, Weight, MaxCount, DropChance, Name, Strength)
-        = (id, value, size, weight, maxCount, dropChance, 
+        => (Id, Value, Size, Weight, MaxCount, DropChance, Price, Name, Strength)
+        = (id, value, size, weight, maxCount, dropChance, price,
             $"{name} ({Enum.GetName(typeof(PotionStrength), strength)}: {(int)strength})", strength);
 
 }

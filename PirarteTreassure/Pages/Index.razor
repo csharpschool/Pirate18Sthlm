@@ -16,14 +16,40 @@
     <button class="btn btn-danger" @onclick="() => ge.Attack()">Hero Attack</button>
 }
 
-@* <button class="btn btn-primary" @onclick="async () => await ge.Hero.Loot(ge.Adversaries[1])">
-    Loot Monster
-</button>
- 
+@if (ge.Shop.Count > 0)
+{
+    <h3>Shop</h3>
+    <h4>@ge.Message</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Weight</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ge.Shop.Get(ge.Hero.Gold))
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Size</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Price</td>
+                    <td>
+                        @if (item.CanBuy)
+                        {
+                            <button class="btn btn-success" @onclick="() => ge.Shop.Buy(ge.Hero, item)">Buy</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div>
-    @(IsFightOn ? "Fight" : "Flee")
-</div>*@
+}
 
 <h3>Battle Log</h3>
 <table class="table">
@@ -108,6 +134,7 @@
                         {
                             <button class="btn btn-danger" @onclick="() => ge.DrinkPotion((HealthPotion)item)">Drink</button>
                         }
+                        <button class="btn btn-primary" @onclick="() => ge.Shop.Sell(ge.Hero, item)">Sell</button>
                     </td>
                 </tr>
             }
