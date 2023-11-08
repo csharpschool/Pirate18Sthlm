@@ -11,6 +11,7 @@ public class Barbarian : Character, IHero
         Energy = 76;
         Strength = 49;
         Level = 5;
+        XP = 0;
         Stamina = 23;
         Speed = 10;
         Stealth = 34;

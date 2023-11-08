@@ -98,6 +98,16 @@ public class GameEngine
         if (a.HP <= 0)
         {
             a.HP = 0;
+            // XP
+            var xp = a.Strength - Hero.Strength;
+            Hero.XP += (int)(10 + xp);
+            if(Hero.XP >= 100)
+            {
+                Hero.Level++;
+                Hero.XP = 0;
+                Hero.Strength += Hero.Strength * 1.1;
+            }
+
             // Loot based on DropChance
             var lootedItems =
                 a.Backpack?.GetBackpack().Where(

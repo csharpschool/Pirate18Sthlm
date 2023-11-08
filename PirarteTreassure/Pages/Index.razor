@@ -88,9 +88,35 @@
     </tbody>
 </table>
 
+<h3>Hero's Stats</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Gold</th>
+            <th>Free Weight</th>
+            <th>Free Space</th>
+            <th>HP</th>
+            <th>XP</th>
+            <th>Level</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@ge.Hero.Name</td>
+            <td>@ge.Hero.Gold</td>
+            <td>@ge.Hero.Backpack.FreeWeight / @ge.Hero.Backpack.MaxWeight</td>
+            <td>@ge.Hero.Backpack.FreeSpace / @ge.Hero.Backpack.MaxSize</td>
+            <td>@ge.Hero.HP</td>
+            <td>@ge.Hero.XP</td>
+            <td>@ge.Hero.Level</td>
+        </tr>
+    </tbody>
+</table>
 <button @onclick="() => showInverntory = !showInverntory" type="button" class="btn btn-outline-success mt-3" data-bs-toggle="button">Toggle button</button>
 @if (showInverntory && ge.Hero.Backpack is not null)
 {
+
     <h3>Hero's backpack</h3>
     <table class="table">
         <thead>
@@ -102,31 +128,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Gold</td>
-                <td>@ge.Hero.Gold</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Free Weight</td>
-                <td></td>
-                <td>@ge.Hero.Backpack.FreeWeight / @ge.Hero.Backpack.MaxWeight</td>
-                <td></td>
-            </tr>
-            <tr>
-            <td>Free Space</td>
-                <td></td>
-                <td>@ge.Hero.Backpack.FreeSpace / @ge.Hero.Backpack.MaxSize</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>HP @(ge.Hero.Name)</td>
-                <td></td>
-                <td>@ge.Hero.HP</td>
-                <td></td>
-            </tr>
-
             @foreach (var item in ge.Hero.Backpack.GetItems())
             {
                 <tr>

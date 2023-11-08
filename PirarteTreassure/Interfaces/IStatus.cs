@@ -4,8 +4,9 @@
     {
         int HP { get; set; } // Hälsa
         int Energy { get; set; } // Energi/Mat
-        int Strength { get; set; }
+        double Strength { get; set; }
         int Level { get; set; }
+        int XP { get; set; }
         int Stamina { get; set; }
         int Speed { get; set; }
         int Stealth { get; set; }
