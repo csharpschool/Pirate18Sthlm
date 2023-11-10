@@ -6,11 +6,57 @@
 @inject GameEngine ge
 
 <div class="d-flex justify-content-between">
-    <img src="pirate.png" />
-    <img src="monster.png" />
+    <img src="pirate.png" height="200" />
+    <img src="monster.png" height="200" />
 </div>
 
 <h1>Game</h1>
+<div class="mb-3">
+<h4>@ge.CurrentLocation.Name</h4>
+    @if (ge.CurrentLocation.Locations is not null 
+      && ge.CurrentLocation.Place is not null)
+{
+    @foreach(var location in ge.CurrentLocation.Locations)
+    {
+        <button class="btn btn-primary me-2" @onclick="() => ge.Move(location)">@location.Name</button>
+    }
+
+    @if (ge.CurrentLocation.Place?.Count > 0)
+    {
+        <h3 class="mt-3">@ge.CurrentLocation.Place?.Name</h3>
+        <h4>@ge.Message</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Weight</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ge.CurrentLocation.Place.Get(ge.Hero.Gold))
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Size</td>
+                        <td>@item.Weight</td>
+                        <td>@item.Price</td>
+                        <td>
+                            @if (item.CanBuy)
+                            {
+                                    <button class="btn btn-success" @onclick="() => ge.CurrentLocation.Place.Buy(ge.Hero, item, null)">Buy</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+</div>
+
 @if (ge.Adversaries.Count == 0)
 {
     <button class="btn btn-primary" @onclick="() => IsFightOn = ge.Challenge()">Challenge</button>
@@ -18,41 +64,6 @@
 @if (ge.Adversaries.Count > 0)
 {
     <button class="btn btn-danger" @onclick="() => ge.Attack()">Hero Attack</button>
-}
-
-@if (ge.Shop.Count > 0)
-{
-    <h3>Shop</h3>
-    <h4>@ge.Message</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Size</th>
-                <th>Weight</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ge.Shop.Get(ge.Hero.Gold))
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Size</td>
-                    <td>@item.Weight</td>
-                    <td>@item.Price</td>
-                    <td>
-                        @if (item.CanBuy)
-                        {
-                            <button class="btn btn-success" @onclick="() => ge.Shop.Buy(ge.Hero, item)">Buy</button>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
 }
 
 <h3>Battle Log</h3>
@@ -139,8 +150,8 @@
                             @if (item.GetType() == typeof(HealthPotion))
                             {
                                 <button class="btn btn-danger" @onclick="() => ge.DrinkPotion((HealthPotion)item)">Drink</button>
-                            }
-                            <button class="btn btn-primary" @onclick="() => ge.Shop.Sell(ge.Hero, item)">Sell</button>
+                            }   
+                            <button class="btn btn-primary" @onclick="() => ge.CurrentLocation.Place.Sell(ge.Hero, item)">Sell</button>
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#dropModal">
                                 Drop
                             </button>

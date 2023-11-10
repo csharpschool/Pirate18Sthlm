@@ -10,6 +10,7 @@ public interface IBackpack<T> : IStorage<T> where T : class, IItem
     Task AddRangeAsync(List<T>? items);
     void Empty();
     List<T> GetItems();
+    T? Single(Func<T, bool> filter);
     Backpack<T> GetBackpack();
     Task<Backpack<T>> GetItemsAsync();
     Task EmptyAsync();

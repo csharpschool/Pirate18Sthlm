@@ -3,7 +3,9 @@
 public enum Action
 {
     Sell,
-    Buy
+    Buy,
+    Craft,
+    Failed
 }
 
 public struct ShopEventArgs

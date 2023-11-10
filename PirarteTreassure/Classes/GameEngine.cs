@@ -4,9 +4,11 @@ using PirarteTreassure.Classes.Characters.Monsters;
 using PirarteTreassure.Classes.Items.Consumables;
 using PirarteTreassure.Classes.Items.Valuables;
 using PirarteTreassure.Classes.Items.Weapons;
+using PirarteTreassure.Classes.Map;
 using PirarteTreassure.Extensions;
 using PirarteTreassure.Interfaces;
 using PirarteTreassure.Structs;
+using System.ComponentModel;
 using System.Net.Http.Headers;
 
 namespace PirarteTreassure.Classes;
@@ -16,6 +18,8 @@ namespace PirarteTreassure.Classes;
 public class GameEngine
 {
     public IHero Hero { get; init; } = new Barbarian("Conan", 25, 36, 0.2);
+
+    public Location CurrentLocation { get; private set; }
 
     List<ICharacter> Monsters { get; init; } = new()
     {
@@ -30,25 +34,49 @@ public class GameEngine
     public (int Gold, Backpack<IItem> Items) LootedItems { get; set; } = new()
     { Gold = 0, Items = new Backpack<IItem>(1000, 1000) };
 
-    public Shop Shop { get; private set; } = new();
-
     public string Message { get; set; }
 
     public GameEngine()
     {
+        Hero.Backpack?.Add(new Iron(10, "Iron Bar"));
         Hero.Backpack?.Add(new Ruby(1, 23, 1, 10, 25, 0.3, "Ruby", 100));
         Hero.Backpack?.Add(new Ruby(2, 23, 1, 10, 25, 0.25, "Small Ruby", 50));
         Hero.Backpack?.Add(new HealthPotion(3, 23, 1, 3, 25, 0.5,
             "Health Potion", 75, PotionStrength.Super));
         var kraken = Monsters.Single(m => m.Name == "Bob");
         kraken.Backpack?.Add(new Sword(0.95, "Jack", 200));
-        Shop.Add(new Sword(0.75, "Percy", 45));
-        Shop.Add(new HealthPotion(3, 23, 1, 3, 25, 0.5,
-            "Super Health Potion", 100, PotionStrength.Super));
-        Shop.ShopEvent += ShopEvent;
+
+        #region Map
+        Shop shop = new("Shop", new()
+        {
+            new Sword(0.75, "Percy", 45),
+            new HealthPotion(3, 23, 1, 3, 25, 0.5,
+            "Super Health Potion", 100, PotionStrength.Super)
+        });
+        shop.PlaceEvent += PlaceEvent;
+
+        Smithy smithy = new("Smithy", new()
+        {
+            new Sword(0.75, "Ollie", 45),
+            new Sword(0.75, "Bloodstained Blade", 45)
+        });
+        smithy.PlaceEvent += PlaceEvent;
+
+
+        var hamlet = new Location("Hamlet", shop);
+        var smithy1 = new Location("Smithy", smithy);
+        var third = new Location("Third");
+        var fourth = new Location("Fourth");
+
+        hamlet.AddLocations(smithy1, fourth);
+        smithy1.AddLocations(hamlet, third);
+        third.AddLocations(smithy1, fourth);
+
+        CurrentLocation = hamlet;
+        #endregion
     }
 
-    void ShopEvent(object? sender, ShopEventArgs e)
+    void PlaceEvent(object? sender, ShopEventArgs e)
     {
         Message = $"{e.Action}: {e.Name} {e.Price}";
     }
@@ -180,7 +208,6 @@ public class GameEngine
     {
         LootedItems.Items.Remove(item);
     }
-
     public void DrinkPotion(HealthPotion potion)
     {
         var remainingStrength =
@@ -207,4 +234,9 @@ public class GameEngine
 
         Hero.Backpack?.Remove(potion);
     }
+    public void Move(Location location)
+    {
+        CurrentLocation = location;
+    }
+
 }

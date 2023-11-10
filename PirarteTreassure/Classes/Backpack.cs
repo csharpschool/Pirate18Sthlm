@@ -38,6 +38,8 @@ public class Backpack<T> : List<T>, IBackpack<T> where T : class, IItem
     public void Empty() => Clear();
 
     public List<T> GetItems() => this;
+    public T? Single(Func<T, bool> filter) 
+        => this.SingleOrDefault(filter);
     public Backpack<T> GetBackpack() => this;
 
     public async Task EmptyAsync() => await Task.Run(Clear);

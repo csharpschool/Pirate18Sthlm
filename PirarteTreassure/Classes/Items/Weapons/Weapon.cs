@@ -20,6 +20,7 @@ namespace PirarteTreassure.Classes.Items.Weapons
             Name = name;
             DropChance = dropChance;
             Price = price;
+            Weight = 10;
         }
     }
 }

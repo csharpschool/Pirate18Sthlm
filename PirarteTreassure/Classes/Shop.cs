@@ -1,14 +1,18 @@
-﻿using PirarteTreassure.Interfaces;
+﻿using PirarteTreassure.Classes.Map;
+using PirarteTreassure.Interfaces;
 using PirarteTreassure.Structs;
 
 namespace PirarteTreassure.Classes;
 
-public class Shop : List<IItem>
+public class Shop : Place
 {
-    public event EventHandler<ShopEventArgs>? ShopEvent;
-    Random random = new();
+    
 
-    public Shop Get(int gold)
+    public Shop(string name, List<IItem>? items) : base(name, items)
+    {
+    }
+
+    public override Shop Get(int gold)
     {    
         foreach (IItem item in this) 
         {
@@ -18,7 +22,7 @@ public class Shop : List<IItem>
         return this;
     }
 
-    public void Buy(ICharacter character, IItem item)
+    public override void Buy(ICharacter character, IItem item, string? name)
     {
         double priceModifier = random.Next(75, 125) / (double)100;
         var price = priceModifier * item.Price;
@@ -28,19 +32,19 @@ public class Shop : List<IItem>
         var args = new ShopEventArgs(
             (int)price, item.Name, Structs.Action.Buy);
 
-        if (ShopEvent is not null) ShopEvent(this, args);
+        TriggerEvent(args);
     }
 
-    /// TODO: Event
-    public void Sell(ICharacter character, IItem item)
+    public override void Sell(ICharacter character, IItem item)
     {       
         double priceDeflator = random.Next(25, 75) / (double)100;
         var profit = priceDeflator * item.Price;
         character.Gold += (int)profit;
         Add(item);
         character.Backpack?.Remove(item);
-        if (ShopEvent is not null) ShopEvent(this,
-            new ShopEventArgs((int)profit, item.Name, Structs.Action.Sell));
+
+        var args = new ShopEventArgs((int)profit, item.Name, Structs.Action.Sell);
+        TriggerEvent(args);
 
     }
 
